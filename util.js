@@ -34,6 +34,25 @@ const converterPdf = (nomeArquivo) => {
 
 }
 
+const converterPdfTR = (nomeArquivo) => {
+    const filePath = path.join(__dirname, `./termoRecebimento/${nomeArquivo}.docx`);
+    const outputPath = path.join(__dirname, `./termoRecebimentoPDF/${nomeArquivo}.pdf`);
+
+    const file = fs.readFileSync(filePath);
+
+    const ext = '.pdf';
+
+    libre.convert(file, ext, undefined, (err, done) => {
+        if (err) {
+            console.error(`Erro na conversão do arquivo: ${err}`);
+            return;
+        }
+
+        fs.writeFileSync(outputPath, done);
+    });
+
+}
+
 const removerBarra = (tituloArquivo) => {
     let tituloArquivoSemBarra = tituloArquivo;
     while (tituloArquivo !== tituloArquivoSemBarra) {
@@ -46,5 +65,6 @@ module.exports = {
     carregarArquivo,
     salvarArquivo,
     converterPdf,
+    converterPdfTR,
     removerBarra,
 }
